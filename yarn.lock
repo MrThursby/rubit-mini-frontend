@@ -8394,11 +8394,6 @@ utils-merge@1.0.1:
   resolved "https://registry.yarnpkg.com/utils-merge/-/utils-merge-1.0.1.tgz#9f95710f50a267947b2ccc124741c1028427e713"
   integrity sha1-n5VxD1CiZ5R7LMwSR0HBAoQn5xM=
 
-v-blur@^1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/v-blur/-/v-blur-1.0.4.tgz#eb51f0aef61e92426db2d9e5c3c4b151d999ed29"
-  integrity sha512-4Cuq/BLUDIXmU7Ld7K4Cue4agiutjtj9KwEPQvF7Ubt31cvXdNhON/ORVKgkRq6X7uZxKjcSAubsJGd7wfxN5g==
-
 vary@^1.1.2, vary@~1.1.2:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
