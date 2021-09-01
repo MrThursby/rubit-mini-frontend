@@ -2,7 +2,9 @@
   <header class="border-non-active-2 border-b">
     <container class="flex justify-between items-center h-20">
       <div>
-        <app-logo />
+        <nuxt-link to="/">
+          <app-logo />
+        </nuxt-link>
       </div>
       <div>
         <app-button tag="a" href="https://t.me/mrthursby">

@@ -4,6 +4,7 @@
     :class="focused ? 'border-primary' : 'border-non-active-2'"
   >
     <input class="w-full h-12 outline-none px-3 bg-transparent"
+           :disabled="disabled"
            @focusin="focused = true"
            @focusout="focused = false"
            :id="inputId"
@@ -26,6 +27,7 @@ export default {
     inputType: { type: String, default: "text" },
     inputValue: null,
     inputPlaceholder: { type: String },
+    disabled: { type: Boolean, default: false }
   }
 }
 </script>

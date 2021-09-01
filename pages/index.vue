@@ -32,7 +32,7 @@
           input-id="input-output"
         >
           <label
-            for="bankroll-address"
+            for="input-output"
             class="pr-4 font-semibold text-primary-2"
           >руб.</label>
         </input-group>
@@ -66,7 +66,7 @@
       </form-group>
 
       <form-group class="flex justify-center mb-10">
-        <app-button tag="button" lg>Обменять</app-button>
+        <app-button tag="nuxt-link" to="/order" lg>Обменять</app-button>
       </form-group>
 
     </div>
