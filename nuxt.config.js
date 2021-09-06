@@ -23,6 +23,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~plugins/v-clipboard'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -38,10 +39,32 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
+    '@nuxtjs/recaptcha'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: {
+    proxy: true
+  },
+
+  proxy: {
+    '/api': {
+      target: 'http://localhost:8000/api',
+      changeOrigin: true,
+      pathRewrite: {
+        '^/api' : '/'
+      }
+    }
+  },
+
+  recaptcha: {
+    // hideBadge: Boolean, // Hide badge element (v3 & v2 via size=invisible)
+    // language: String,   // Recaptcha language (v2)
+    siteKey: process.env.CAPTCHA_KEY,    // Site key for requests
+    version: 2,     // Version
+    size: 'normal'        // Size: 'compact', 'normal', 'invisible' (v2)
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {

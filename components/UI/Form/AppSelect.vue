@@ -15,7 +15,10 @@
         'h-10': sm
       }"
     >
-      <span class="text-primary-2 font-semibold">{{ options[selected].title || '' }}</span>
+      <span
+          class="text-primary-2 font-semibold"
+          :class="{'uppercase': uppercase}"
+      >{{ options[selected].title || '' }}</span>
       <span
         class="transform transition duration-200"
         :class="{ 'rotate-180': focused }"
@@ -28,19 +31,13 @@
     >
       <div
         class="pl-4 pr-10 h-12 flex items-center cursor-pointer text-primary-2 font-semibold"
+        :class="{'uppercase': uppercase}"
         v-for="(option, index) of options"
         @click="() => selectItem(index)"
         :key="index"
       >{{ option.title }}</div>
     </div>
   </div>
-<!--  <select class="bg-non-active-2 h-12 rounded px-4">
-    <option
-      v-for="(option, index) of options"
-      :value="option.value"
-      :key="index"
-    >{{ option.title }}</option>
-  </select>-->
 </template>
 
 <script>
@@ -50,15 +47,20 @@ export default {
     selected: 0,
     focused: false,
   }),
+  mounted() {
+    this.$emit('input', 0)
+  },
   methods: {
     selectItem(index) {
       this.selected = index
+      this.$emit('input', index)
       this.$refs.select.blur()
     }
   },
   props: {
     options: { type: Array },
-    sm: { type: Boolean, default: false }
+    sm: { type: Boolean, default: false },
+    uppercase: { type: Boolean, default: false }
   }
 }
 </script>
