@@ -50,7 +50,7 @@ export default {
 
   proxy: {
     '/api': {
-      target: 'http://localhost:8000/api',
+      target: process.env.API_URL,
       changeOrigin: true,
       pathRewrite: {
         '^/api' : '/'
