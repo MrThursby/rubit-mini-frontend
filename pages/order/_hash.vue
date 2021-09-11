@@ -8,7 +8,7 @@
     </div>
     <div class="w-full md:w-1/2 lg:w-1/3 mx-auto">
       <div class="pl-9 mb-10">
-        <order-info-item title="Способ оплаты" value="Тинькофф" />
+        <order-info-item title="Способ оплаты" :value="order.paymentMethod" />
         <order-info-item title="Отдаёте" :value="`${order.invoice.total_amount} руб.`" />
         <order-info-item
           title="Получаете"
@@ -23,7 +23,7 @@
                     :opened="!checkingBuy && order.invoice.status === 'created'" class="mb-10">
           <div class="mb-5 last:mb-0">
             Отправьте <span class="underline font-bold">{{ order.invoice.total_amount }}</span>
-            руб. через «<span class="font-bold">Тинькофф</span>»
+            руб. через <span class="font-bold whitespace-nowrap">«{{ order.paymentMethod }}»</span>
             по указанным реквезитам в течении 3 часов.
           </div>
 
