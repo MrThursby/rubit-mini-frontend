@@ -96,9 +96,11 @@ export default {
       this.$store.dispatch('reFetchOrder', this.$route.params.hash)
     },
     startCycleFetch() {
-      do {
+      this.reFetch()
+
+      while (this.cycleFetchOn === true) {
         setTimeout(this.reFetch, 20 * 1000)
-      } while (this.cycleFetchOn === true)
+      }
     }
   },
   computed: {
