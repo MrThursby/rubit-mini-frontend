@@ -31,6 +31,10 @@
             Отправка платежа подтверждена
           </template>
 
+          <template v-slot:error>
+            Время для оплаты заказа истекло
+          </template>
+
           <template v-slot:closed>
             <input-group
               disabled
@@ -40,12 +44,15 @@
               <img src="~assets/icons/copy.svg" alt="Copy">
             </app-button></input-group>
             <div class="flex justify-center">
-              <app-button @click="reFetch" lg>Подтвердить оплату</app-button>
+              <app-button @click="startCycleFetch" lg>Подтвердить оплату</app-button>
             </div>
           </template>
         </order-step>
 
-        <order-step :status="checkingStepStatus" class="mb-10">
+        <order-step
+          v-if="order.invoice.status !== 'expired'"
+          :status="checkingStepStatus" class="mb-10"
+        >
           Проверка платежа
 
           <template v-slot:completed>
@@ -53,7 +60,10 @@
           </template>
         </order-step>
 
-        <order-step :status="pendingStepStatus" class="mb-10">
+        <order-step
+          v-if="order.invoice.status !== 'expired'"
+          :status="pendingStepStatus" class="mb-10"
+        >
           Отправка монет на ваш кошелёк
 
           <template v-slot:completed>
@@ -85,6 +95,11 @@ export default {
     reFetch() {
       this.$store.dispatch('reFetchOrder', this.$route.params.hash)
     },
+    startCycleFetch() {
+      do {
+        setTimeout(this.reFetch, 20 * 1000)
+      } while (this.cycleFetchOn === true)
+    }
   },
   computed: {
     payingStepStatus() {
@@ -92,6 +107,10 @@ export default {
         this.order.invoice.status === 'completed' ||
         this.order.invoice.status === 'pending'){
         return 'completed'
+      }
+
+      if(this.order.invoice.status === 'expired') {
+        return 'error'
       }
 
       return 'loading'
@@ -120,6 +139,9 @@ export default {
     },
     order() {
       return this.$store.getters['order']
+    },
+    cycleFetchOn() {
+      return this.$store.getters['cycleFetchOn']
     },
     checkingBuy() {
       return this.$store.getters['orderLoadingStatus']

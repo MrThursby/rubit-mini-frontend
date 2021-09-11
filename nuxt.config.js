@@ -1,9 +1,9 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'rubit-mini-frontend',
+    title: 'CryptoSyndicate.biz — анонимная покупка криптовалюты',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'ru'
     },
     meta: [
       { charset: 'utf-8' },
@@ -52,9 +52,9 @@ export default {
     '/api': {
       target: process.env.API_URL,
       changeOrigin: true,
-      pathRewrite: {
+      /*pathRewrite: {
         '^/api' : '/'
-      }
+      }*/
     }
   },
 

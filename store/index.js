@@ -1,6 +1,7 @@
 export const state = () => ({
   config: [],
   order: [],
+  cycleFetchOn: false,
   orderLoadingStatus: false,
 })
 
@@ -10,6 +11,9 @@ export const mutations = {
   },
   setOrder(state, order) {
     state.order = order
+  },
+  setCycleFetchOn(state, bool) {
+    state.cycleFetchOn = bool
   },
   setOrderLoadingStatus(state, status) {
     state.orderLoadingStatus = status
@@ -31,6 +35,12 @@ export const actions = {
     commit('setOrderLoadingStatus', true)
     const config = await this.$axios.$get(`/api/order/${hash}`)
 
+    if(config.invoice.status === 'pending'){
+      commit('setCycleFetchOn', true)
+    } else {
+      commit('setCycleFetchOn', false)
+    }
+
     commit('setOrder', config)
     commit('setOrderLoadingStatus', false)
   },
@@ -39,5 +49,6 @@ export const actions = {
 export const getters = {
   config: state => state.config,
   order: state => state.order,
+  cycleFetchOn: state => state.cycleFetchOn,
   orderLoadingStatus: state => state.orderLoadingStatus,
 }

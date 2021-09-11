@@ -58,7 +58,7 @@ export default {
     }
   },
   props: {
-    options: { type: Array },
+    options: null,
     sm: { type: Boolean, default: false },
     uppercase: { type: Boolean, default: false }
   }

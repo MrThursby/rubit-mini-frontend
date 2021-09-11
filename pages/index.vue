@@ -25,7 +25,7 @@
           label-for="input-output"
         >
           <input-group
-            @input="e => { calcGet(); validatePut(e); validateSum();}"
+            @input="e => { calcGet(); validatePut(e);}"
             v-model.number="put"
             :invalid="errors.put.length !== 0"
             max-length="20"
@@ -48,14 +48,14 @@
           <input-group
             v-model.number="form.get"
             :invalid="errors.sum.length !== 0 || errors.typeCrypto.length !== 0"
-            @input="() => {calcPut(); validateSum(); validatePut();}"
+            @input="() => {calcPut(); validatePut();}"
             max-length="20"
             input-type="text"
             input-id="input-input"
           >
             <app-select
               value-field="id"
-              @input="() => {calcGet(); validateTypeCrypto(); validateSum(); validatePut();}"
+              @input="() => {calcGet(); validateTypeCrypto(); validatePut();}"
               uppercase
               v-model="form.currency"
               :options="config.configBtc.coins"
@@ -146,7 +146,7 @@ export default {
         this.errors.typeCrypto.push('Выберите одну из доступных криптоволют')
       }
     },
-    validateSum() {
+    /*validateSum() {
       this.errors.sum = []
       const coin_name = this.config.configBtc.coins[this.form.currency].title.toUpperCase()
 
@@ -159,15 +159,15 @@ export default {
       if(this.form.get < min){
         this.errors.sum.push(`Минимально возможный заказ составляет ${min} ${coin_name}`)
       }
-    },
+    },*/
     validatePut() {
       this.errors.put = []
-      const max = this.config.configBtc.coins[this.form.currency].max_rub
+      const max = Math.floor(this.config.configBtc.coins[this.form.currency].max_rub)
       if(this.put > max){
         this.errors.put.push(`Максимальная сумма - ${max} руб.`)
       }
 
-      const min = this.config.configBtc.coins[this.form.currency].min_rub
+      const min = Math.ceil(this.config.configBtc.coins[this.form.currency].min_rub)
       if(this.put < min){
         this.errors.put.push(`Минимальная сумма - ${min} руб.`)
       }
@@ -180,8 +180,8 @@ export default {
       this.loading = true
 
       let formData = new FormData()
-      formData.append('typeCrypto', (this.form.currency + 1).toString())
-      formData.append('paymentMethod', this.form.paymentMethod)
+      formData.append('typeCrypto', this.config.configBtc.coins[this.form.currency].id)
+      formData.append('paymentMethod', this.config.typePayment[this.form.paymentMethod].id)
       formData.append('sum', this.form.get)
       formData.append('wallet', this.form.wallet_address)
 
