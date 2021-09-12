@@ -3,7 +3,7 @@
     <div class="mb-10">
       <ul class="text-sm text-non-active font-semibold flex gap-5">
         <li><nuxt-link to="/">Главная</nuxt-link></li>
-        <li class="text-primary-2"><nuxt-link to="/order">Обмен #15</nuxt-link></li>
+        <li class="text-primary-2"><nuxt-link to="/order">Обмен #{{ order.invoice.invoice_id }}</nuxt-link></li>
       </ul>
     </div>
     <div class="w-full md:w-1/2 lg:w-1/3 mx-auto">
