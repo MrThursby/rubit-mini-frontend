@@ -20,7 +20,7 @@
 
       <div>
         <order-step :status="payingStepStatus"
-                    :opened="!checkingBuy && order.invoice.status === 'created'" class="mb-10">
+                    :opened="!checkingBuy && order.invoice.status === 'created' && !cycleFetchOn" class="mb-10">
           <div class="mb-5 last:mb-0">
             Отправьте <span class="underline font-bold">{{ order.invoice.total_amount }}</span>
             руб. через <span class="font-bold whitespace-nowrap">«{{ order.paymentMethod }}»</span>
@@ -93,19 +93,22 @@ export default {
   },
   methods: {
     reFetch() {
-      this.$store.dispatch('reFetchOrder', this.$route.params.hash)
+      return this.$store.dispatch('reFetchOrder', this.$route.params.hash)
     },
-    startCycleFetch() {
-      this.reFetch()
-
-      while (this.cycleFetchOn === true) {
-        setTimeout(this.reFetch, 20 * 1000)
-      }
+    async startCycleFetch() {
+      await setTimeout(function run(reFetch, getters) {
+        reFetch().then(() => {
+          console.log(getters.cycleFetchOn)
+          if(getters.cycleFetchOn === true){
+            setTimeout(run, 20 * 1000, reFetch, getters)
+          }
+        })
+      }, 0, this.reFetch, this.$store.getters);
     }
   },
   computed: {
     payingStepStatus() {
-      if(this.checkingBuy ||
+      if(this.checkingBuy || this.cycleFetchOn ||
         this.order.invoice.status === 'completed' ||
         this.order.invoice.status === 'pending'){
         return 'completed'
@@ -118,7 +121,7 @@ export default {
       return 'loading'
     },
     checkingStepStatus() {
-      if(this.checkingBuy){
+      if(this.checkingBuy || this.cycleFetchOn){
         return 'loading'
       }
 

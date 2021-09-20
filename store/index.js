@@ -35,7 +35,7 @@ export const actions = {
     commit('setOrderLoadingStatus', true)
     const config = await this.$axios.$get(`/api/order/${hash}`)
 
-    if(config.invoice.status === 'pending'){
+    if(config.invoice.status === 'pending' || config.invoice.status === 'created'){
       commit('setCycleFetchOn', true)
     } else {
       commit('setCycleFetchOn', false)

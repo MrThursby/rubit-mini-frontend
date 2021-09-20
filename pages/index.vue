@@ -175,8 +175,6 @@ export default {
 
     submit(e) {
       e.preventDefault()
-
-      console.log(this.$recaptcha)
       this.loading = true
 
       let formData = new FormData()
