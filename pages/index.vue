@@ -16,7 +16,7 @@
               :options="config.typePayment"
             />
           </div>
-          <form-errors-list :errors="errors.paymentMethod" />
+          <form-errors-list :errors="errors.paymentMethod || []" />
         </form-group>
 
         <form-group
@@ -37,7 +37,7 @@
               class="pr-4 font-semibold text-primary-2 z-0"
             >руб.</label>
           </input-group>
-          <form-errors-list :errors="errors.put" />
+          <form-errors-list :errors="errors.put || []" />
         </form-group>
 
         <form-group
@@ -78,7 +78,7 @@
             :invalid="errors.wallet.length !== 0"
             placeholder="Введите адрес вашего кошелька"
           />
-          <form-errors-list :errors="errors.wallet" />
+          <form-errors-list :errors="errors.wallet || []" />
         </form-group>
 
         <form-group class="flex flex-col items-center mb-10">
@@ -94,6 +94,8 @@
             type="submit"
             lg
           >Обменять</app-button>
+
+          <form-errors-list :errors="errors.server || []" />
         </form-group>
       </form>
     </div>
@@ -146,20 +148,6 @@ export default {
         this.errors.typeCrypto.push('Выберите одну из доступных криптоволют')
       }
     },
-    /*validateSum() {
-      this.errors.sum = []
-      const coin_name = this.config.configBtc.coins[this.form.currency].title.toUpperCase()
-
-      const max = this.config.configBtc.coins[this.form.currency].max
-      if(this.form.get > max){
-        this.errors.sum.push(`Максимально возможный заказ составляет ${max} ${coin_name}`)
-      }
-
-      const min = this.config.configBtc.coins[this.form.currency].min
-      if(this.form.get < min){
-        this.errors.sum.push(`Минимально возможный заказ составляет ${min} ${coin_name}`)
-      }
-    },*/
     validatePut() {
       this.errors.put = []
       const max = Math.floor(this.config.configBtc.coins[this.form.currency].max_rub)
@@ -216,8 +204,11 @@ export default {
             if(e.response.data.errors.typeCrypto){
               this.errors.typeCrypto.push('')
             }
+            if(e.response.data.errors.wallet){
+              this.errors.wallet.push('Невалидный адрес кошелька')
+            }
           } else {
-            this.errors.wallet.push('Невалидный адрес кошелька')
+            this.errors.server.push('Сервер не доступен, попробуйте позже')
           }
         })
       this.$recaptcha.reset()
